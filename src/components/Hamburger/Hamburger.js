@@ -22,7 +22,7 @@ const InnerHamburger = styled.div`
   width: 26px;
   height: 2px;
   position: relative;
-  background: ${({ isOpen }) => (isOpen ? 'transparent' : 'black')}
+  background: ${({ isOpen }) => (isOpen ? 'transparent' : 'white')}
 
   ::before,
   ::after {
@@ -30,7 +30,7 @@ const InnerHamburger = styled.div`
     position: absolute;
     width: 26px;
     height: 2px;
-    background: ${({ isOpen }) => (isOpen ? 'white' : 'black')}
+    background: white;
     left: 0;
     transition: all .3s ease;
   }
@@ -49,7 +49,7 @@ const InnerHamburger = styled.div`
 const Hamburger = ({ isOpen, ...props }) => {
   return (
     <StyledHamburger onClick={props.toggleMenu}>
-      <InnerHamburger></InnerHamburger>
+      <InnerHamburger isOpen={isOpen}></InnerHamburger>
     </StyledHamburger>
   );
 };
