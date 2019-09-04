@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import PhotoCategory from '../PhotoCategory/PhotoCategory';
-import PhotosPage from '../PhotosPage/PhotosPage';
+import PhotoCategory from '../../components/PhotoCategory/PhotoCategory';
 
-const query = ['Abstract', 'Above', 'Leaves'];
+// const query = ['Abstract', 'Above', 'Leaves'];
+const query = ['Leaves'];
 
 const StyledWrapper = styled.section`
   width: 100%;
   min-height: 100vh;
   background: #000;
-`;
-
-const StyledParagraph = styled.p`
-  margin-top: 0;
 `;
 
 const createRandomNumber = max => {
@@ -23,15 +20,14 @@ const createRandomNumber = max => {
 const LandingPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState({});
-  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
     let resultObject = [];
 
     query.map(async item => {
       let result = await fetch(
-        `https://api.pexels.com/v1/search?query=${item}+query&per_page=1&page=${createRandomNumber(
-          100
+        `https://api.pexels.com/v1/search?query=${item}+query&per_page=${1}&page=${createRandomNumber(
+          250
         )}`,
         {
           headers: {
@@ -42,10 +38,7 @@ const LandingPage = () => {
       );
 
       let data = await result.json();
-
       resultObject = [...resultObject, { query: item, ...data.photos[0] }];
-
-      console.log(resultObject);
 
       setData(resultObject);
     });
@@ -54,27 +47,18 @@ const LandingPage = () => {
   const updateCategoryHandler = index => {
     setSelected(data[index]);
     console.log(selected);
-    setIsSelected(true);
-  };
-
-  const updateIsSelectedHandler = () => {
-    setIsSelected(!isSelected);
   };
 
   return (
     <StyledWrapper>
       {data.map((item, index) => (
-        <PhotoCategory
-          key={item.id}
-          clicked={() => updateCategoryHandler(index)}
-          data={item}
-        ></PhotoCategory>
+        <Link key={item.id} to={`/photospage/${item.query}`}>
+          <PhotoCategory
+            clicked={() => updateCategoryHandler(index)}
+            data={item}
+          ></PhotoCategory>
+        </Link>
       ))}
-      <PhotosPage
-        isSelected={isSelected}
-        clicked={updateIsSelectedHandler}
-        //pass selected.query and execute fetch of 15 images with that query
-      ></PhotosPage>
     </StyledWrapper>
   );
 };
