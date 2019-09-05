@@ -16,6 +16,7 @@ const StyledSpan = styled.span`
   display: inline-block;
   text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
   color: white;
+  position: fixed;
 `;
 
 const Photo = ({ match, ...props }) => {
@@ -24,6 +25,7 @@ const Photo = ({ match, ...props }) => {
   });
 
   useEffect(() => {
+    console.log('Photo USEEFFECT');
     (async () => {
       let result = await fetch(
         `https://api.pexels.com/v1/photos/${match.params.id}`,

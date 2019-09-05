@@ -13,3 +13,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #fff;
 }
+
+a{
+  color: white;
+  text-decoration: none;
+}

@@ -27,7 +27,7 @@ const StyledSpan = styled.span`
   display: inline-block;
   text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
   color: white;
-  position: absolute;
+  position: fixed;
 `;
 
 const createRandomNumber = max => {
@@ -41,12 +41,13 @@ const PhotosPage = ({ match }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    console.log('PhotosPage USEEFFECT');
     let resultObject = [];
     (async () => {
       let result = await fetch(
         `https://api.pexels.com/v1/search?query=${
           match.params.query
-        }+query&per_page=${20}&page=${createRandomNumber(250)}`,
+        }+query&per_page=${20}&page=${createRandomNumber(50)}`,
         {
           headers: {
             Authorization:
@@ -56,8 +57,9 @@ const PhotosPage = ({ match }) => {
       );
 
       let data = await result.json();
+      console.log(data);
       resultObject = [...resultObject, ...data.photos];
-
+      console.log(resultObject);
       setData(resultObject);
     })();
   }, []);
