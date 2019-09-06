@@ -28,6 +28,47 @@ const StyledSpan = styled.span`
   text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
   color: white;
   position: fixed;
+  top: 0;
+  left: 0;
+`;
+
+const StyledHeader = styled.div`
+  width: 100%;
+  height: 250px;
+  margin: auto;
+  position: relative;
+  background: #000;
+  text-align: center;
+`;
+
+const StyledHeading = styled.h1`
+  font-size: 40px;
+  letter-spacing: 5px;
+  margin-top: 5rem;
+  border-bottom: 1px solid #fff;
+`;
+
+const StyledBorder = styled.span`
+  width: 90%;
+  height: 1px;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+
+  ::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 15%;
+    height: 3px;
+    background: tomato;
+    top: 1px;
+  }
+
+  :hover::before {
+    width: 90%;
+    transition: all 0.5s ease;
+  }
 `;
 
 const createRandomNumber = max => {
@@ -65,19 +106,25 @@ const PhotosPage = ({ match }) => {
   }, []);
 
   return (
-    <StyledWrapper>
-      <Link to='/'>
-        <StyledSpan>&#10147;</StyledSpan>
-      </Link>
-      {data.map(item => (
-        <StyledLink
-          key={item.id}
-          to={{ pathname: `/photo/${item.id}`, query: match.params.query }}
-        >
-          <SinglePhoto background={item.src.large}></SinglePhoto>
-        </StyledLink>
-      ))}
-    </StyledWrapper>
+    <>
+      <StyledWrapper>
+        <StyledHeader>
+          <StyledHeading>{match.params.query}</StyledHeading>
+          <StyledBorder></StyledBorder>
+        </StyledHeader>
+        <Link to='/'>
+          <StyledSpan>&#10147;</StyledSpan>
+        </Link>
+        {data.map(item => (
+          <StyledLink
+            key={item.id}
+            to={{ pathname: `/photo/${item.id}`, query: match.params.query }}
+          >
+            <SinglePhoto background={item.src.large2x}></SinglePhoto>
+          </StyledLink>
+        ))}
+      </StyledWrapper>
+    </>
   );
 };
 

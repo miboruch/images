@@ -14,11 +14,12 @@ const StyledWrapper = styled.article`
 `;
 
 const StyledHeading = styled.h1`
-  position: absolute;
+  ${'' /* position: absolute; */}
   top: 30%;
   left: 1rem;
   letter-spacing: 7px;
-  margin-top: 0;
+  margin: 0;
+  padding: 0;
   padding-top: 1em;
   text-shadow: 1px 1px #333;
   color: white;
@@ -30,10 +31,20 @@ const StyledBorder = styled.span`
   background: #fff;
   position: absolute;
   top: 50%;
+
+  ::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 15%;
+    height: 3px;
+    background: tomato;
+    top: 1px;
+  }
 `;
 
 const StyledParagraph = styled.p`
-  position: absolute;
+  ${'' /* position: absolute; */}
   top: 60%;
   let: 1rem;
   font-size: 13px;
@@ -53,7 +64,7 @@ const StyledQuote = styled.p`
 
 const PhotoCategory = ({ clicked, data }) => {
   return (
-    <StyledWrapper onClick={clicked} background={data.src.medium}>
+    <StyledWrapper onClick={clicked} background={data.src.landscape}>
       <StyledHeading>{data.query}</StyledHeading>
       <StyledBorder></StyledBorder>
       <StyledParagraph>{data.description}</StyledParagraph>
