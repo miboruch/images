@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const StyledWrapper = styled.div`
   width: 100%;
-  height: 50vh;
+  height: 100vh;
   background: #000;
   position: fixed;
   display: flex;
@@ -14,36 +15,25 @@ const StyledWrapper = styled.div`
   left: 0;
   transform: translateX(${({ isOpen }) => (isOpen ? '0' : '100%')});
   transition: all 1s ease;
+  overflow-x: hidden;
   z-index: 99;
-
-  ::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 50vh;
-    background: #000;
-    top: 50vh;
-    left: 0;
-    transform: translateX(${({ isOpen }) => (isOpen ? '0' : '100%')});
-    transition: all 1s 1s ease;
-    z-index: -2;
-  }
 `;
 
 const StyledDiv = styled.div`
   width: 200px;
   height: 20vh;
-  position: relative;
   display: flex;
+  position: relative;
+  top: -20%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  top: 10%;
-  left: 0;
+  ${'' /* margin: 0 auto; */}
   background: #000;
   color: white;
   text-align: center;
   letter-spacing: 3px;
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
 
   :focus {
     outline: none;
@@ -59,29 +49,30 @@ const StyledDiv = styled.div`
     transform: skew(1deg, 1deg);
     background: linear-gradient(315deg, #ff0057, #e64a19);
     z-index: -1;
-    transition: all 0.5s ease;
+    opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+    transition: all 1s 0.5s ease;
   }
 
   :hover::before {
-    transform: skew(0, 0);
+    transform: skew(-1deg, -1deg);
     background: linear-gradient(315deg, #e64a19, #ff0057);
-    transition: all 0.5s ease;
+    transition: all 1.2s ease;
   }
 `;
 
 const StyledForm = styled.form`
   position: absolute;
-  top: 100%;
+  top: 50%;
   width: 70%;
   margin: auto;
   z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: 0;
-  visibility: hidden;
+  opacity: ${({ isSearchOpen }) => (isSearchOpen ? 1 : 0)};
+  transition: all 1s ease;
 
-  @media all and(min-width: 1440px) {
+  ${({ theme }) => theme.mq.tablet} {
     width: 40%;
   }
 `;
@@ -95,6 +86,7 @@ const StyledInput = styled.input`
   color: #fff;
   transition: all 0.5s ease;
   border-bottom: 1px solid #111;
+  letter-spacing: 3px;
 
   :focus {
     outline: none;
@@ -105,10 +97,11 @@ const StyledInput = styled.input`
     transition: all 0.5s ease;
   }
 
-  :placeholder {
+  ::placeholder {
     font-family: 'Raleway';
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     color: lightgrey;
+    text-align: center;
   }
 `;
 
@@ -130,33 +123,58 @@ const StyledButton = styled.button`
   ::before {
     content: '';
     position: absolute;
-    top: -1px;
-    left: -1px;
-    bottom: -1px;
-    right: -1px;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
     transform: skew(-1deg, -1deg);
     background: linear-gradient(315deg, #e64a19, #ff0057);
     z-index: -1;
-    transition: all 1s ease;
+    transition: all 2s ease;
   }
 
   :hover::before {
-    transform: skew(0, 0);
+    transform: skew(1deg, 1deg);
     background: linear-gradient(315deg, #e64a19, #ff0057);
-    transition: all 1s ease;
+    transition: all 2s ease;
   }
 `;
 
-const Menu = ({ isOpen }) => {
+const StyledLink = styled(Link)`
+  width: 100%;
+  height: 100%;
+`;
+
+const Menu = ({ isOpen, toggleMenu }) => {
+  const [query, setQuery] = useState(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const setSearchOpenHandler = () => {
+    setSearchOpen(!searchOpen);
+    console.log(searchOpen);
+  };
+
+  const setQueryHandler = event => {
+    setQuery(event.target.value);
+    console.log(query);
+  };
+
   return (
     <StyledWrapper isOpen={isOpen}>
-      <StyledDiv>
+      <StyledDiv isOpen={isOpen}>
         <StyledParagraph>Home</StyledParagraph>
-        <StyledParagraph>Search</StyledParagraph>
+        <StyledParagraph onClick={() => setSearchOpenHandler()}>
+          Search
+        </StyledParagraph>
       </StyledDiv>
-      <StyledForm>
-        <StyledInput placeholder='Search'></StyledInput>
-        <StyledButton>Click</StyledButton>
+      <StyledForm isSearchOpen={searchOpen}>
+        <StyledInput
+          placeholder='Search'
+          onChange={setQueryHandler}
+        ></StyledInput>
+        <StyledLink to={`/photospage/${query}`}>
+          <StyledButton onClick={() => toggleMenu()}>Click</StyledButton>
+        </StyledLink>
       </StyledForm>
     </StyledWrapper>
   );

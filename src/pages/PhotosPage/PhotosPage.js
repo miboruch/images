@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
 
 const StyledWrapper = styled.section`
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   position: absolute;
   top: 0;
@@ -14,6 +14,7 @@ const StyledWrapper = styled.section`
   display: flex !important;
   flex-direction: row;
   flex-wrap: wrap;
+  overflow-x: hidden;
 `;
 
 const StyledLink = styled(Link)`
@@ -115,14 +116,26 @@ const PhotosPage = ({ match }) => {
         <Link to='/'>
           <StyledSpan>&#10147;</StyledSpan>
         </Link>
-        {data.map(item => (
+        {data.length === 0 ? (
+          <h1>Sorry, photos can't be loaded</h1>
+        ) : (
+          data.map(item => (
+            <StyledLink
+              key={item.id}
+              to={{ pathname: `/photo/${item.id}`, query: match.params.query }}
+            >
+              <SinglePhoto background={item.src.large2x}></SinglePhoto>
+            </StyledLink>
+          ))
+        )}
+        {/* {data.map(item => (
           <StyledLink
             key={item.id}
             to={{ pathname: `/photo/${item.id}`, query: match.params.query }}
           >
             <SinglePhoto background={item.src.large2x}></SinglePhoto>
           </StyledLink>
-        ))}
+        ))} */}
       </StyledWrapper>
     </>
   );
