@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+
+let background = '/images/header.jpg';
 
 const StyledWrapper = styled.section`
   width: 100vw;
@@ -40,6 +43,10 @@ const StyledHeader = styled.div`
   position: relative;
   background: #000;
   text-align: center;
+  background: url(${({ background }) => background});
+  background-size: cover;
+  background-position: center;
+  border-bottom: 4px solid #000;
 `;
 
 const StyledHeading = styled.h1`
@@ -47,6 +54,7 @@ const StyledHeading = styled.h1`
   letter-spacing: 5px;
   margin-top: 5rem;
   border-bottom: 1px solid #fff;
+  transition: all 1s ease;
 `;
 
 const StyledBorder = styled.span`
@@ -73,23 +81,18 @@ const StyledBorder = styled.span`
 `;
 
 const createRandomNumber = max => {
-  return Math.floor(Math.random() * max + 1);
+  return Math.floor(Math.random() * max) + 1;
 };
 
 const PhotosPage = ({ match }) => {
-  console.log(match);
-  console.log(match.params.query);
-
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([{ src: {} }]);
 
   useEffect(() => {
     console.log('PhotosPage USEEFFECT');
     let resultObject = [];
     (async () => {
       let result = await fetch(
-        `https://api.pexels.com/v1/search?query=${
-          match.params.query
-        }+query&per_page=${20}&page=${createRandomNumber(50)}`,
+        `https://api.pexels.com/v1/search?query=${match.params.query}+query&per_page=50&page=1`,
         {
           headers: {
             Authorization:
@@ -99,44 +102,44 @@ const PhotosPage = ({ match }) => {
       );
 
       let data = await result.json();
-      console.log(data);
+
       resultObject = [...resultObject, ...data.photos];
-      console.log(resultObject);
       setData(resultObject);
+
+      return () => {
+        setData([{ src: {} }]);
+      };
     })();
-  }, []);
+  }, [match.params.query]);
+
+  console.log(data);
 
   return (
     <>
-      <StyledWrapper>
-        <StyledHeader>
-          <StyledHeading>{match.params.query}</StyledHeading>
-          <StyledBorder></StyledBorder>
-        </StyledHeader>
-        <Link to='/'>
-          <StyledSpan>&#10147;</StyledSpan>
-        </Link>
-        {data.length === 0 ? (
-          <h1>Sorry, photos can't be loaded</h1>
-        ) : (
-          data.map(item => (
+      <ErrorBoundary>
+        <StyledWrapper>
+          <StyledHeader>
+            <StyledHeading>{match.params.query}</StyledHeading>
+            <StyledBorder></StyledBorder>
+          </StyledHeader>
+          <Link to='/'>
+            <StyledSpan>&#10147;</StyledSpan>
+          </Link>
+          {data.map(item => (
             <StyledLink
               key={item.id}
-              to={{ pathname: `/photo/${item.id}`, query: match.params.query }}
+              to={{
+                pathname: `/photo/${item.id}`,
+                query: match.params.query,
+                photographer: item.photographer,
+                url: item.url
+              }}
             >
               <SinglePhoto background={item.src.large2x}></SinglePhoto>
             </StyledLink>
-          ))
-        )}
-        {/* {data.map(item => (
-          <StyledLink
-            key={item.id}
-            to={{ pathname: `/photo/${item.id}`, query: match.params.query }}
-          >
-            <SinglePhoto background={item.src.large2x}></SinglePhoto>
-          </StyledLink>
-        ))} */}
-      </StyledWrapper>
+          ))}
+        </StyledWrapper>
+      </ErrorBoundary>
     </>
   );
 };

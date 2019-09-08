@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -28,7 +28,6 @@ const StyledDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  ${'' /* margin: 0 auto; */}
   background: #000;
   color: white;
   text-align: center;
@@ -162,7 +161,9 @@ const Menu = ({ isOpen, toggleMenu }) => {
   return (
     <StyledWrapper isOpen={isOpen}>
       <StyledDiv isOpen={isOpen}>
-        <StyledParagraph>Home</StyledParagraph>
+        <Link to={'/'}>
+          <StyledParagraph onClick={() => toggleMenu()}>Home</StyledParagraph>
+        </Link>
         <StyledParagraph onClick={() => setSearchOpenHandler()}>
           Search
         </StyledParagraph>

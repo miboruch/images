@@ -14,19 +14,22 @@ const StyledWrapper = styled.article`
   z-index: 50;
 `;
 
+const StyledSection = styled.section`
+  width: 100%;
+  position: relative;
+  padding-top: 2.8em;
+
+  ${({ theme }) => theme.mq.mobileL} {
+    padding-top: 4em;
+  }
+`;
+
 const StyledHeading = styled.h1`
-  top: 30%;
-  left: 1rem;
   letter-spacing: 7px;
   margin: 0;
   padding: 0;
-  padding-top: 2em;
   text-shadow: 1px 1px #333;
   color: white;
-
-  ${({ theme }) => theme.mq.mobileL} {
-    padding-top: 3em;
-  }
 `;
 
 const StyledBorder = styled.span`
@@ -34,10 +37,11 @@ const StyledBorder = styled.span`
   height: 1px;
   background: #fff;
   position: absolute;
-  top: 4em;
+  top: 6em;
+  display: none;
 
   ${({ theme }) => theme.mq.mobileL} {
-    top: 5em;
+    display: block;
   }
 
   ${({ theme }) => theme.mq.tablet} {
@@ -56,14 +60,16 @@ const StyledBorder = styled.span`
 `;
 
 const StyledParagraph = styled.p`
-  top: 60%;
-  let: 1rem;
   font-size: 13px;
-  margin: 0;
   letter-spacing: 2px;
   color: white;
+  margin: 0;
   text-shadow: 1px 1px #333;
-  padding-top: 1em;
+  margin-top: 1em;
+
+  ${({ theme }) => theme.mq.mobileL} {
+    margin-top: 2em;
+  }
 `;
 
 const StyledQuote = styled.p`
@@ -81,9 +87,11 @@ const PhotoCategory = ({ clicked, data }) => {
   console.log(data.photographer_url);
   return (
     <StyledWrapper onClick={clicked} background={data.src.landscape}>
-      <StyledHeading>{data.query}</StyledHeading>
-      <StyledBorder></StyledBorder>
-      <StyledParagraph>{data.description}</StyledParagraph>
+      <StyledSection>
+        <StyledHeading>{data.query}</StyledHeading>
+        <StyledBorder></StyledBorder>
+        <StyledParagraph>{data.description}</StyledParagraph>
+      </StyledSection>
       <StyledQuote>&#10064; {data.photographer}</StyledQuote>
     </StyledWrapper>
   );

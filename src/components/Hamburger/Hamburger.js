@@ -22,7 +22,7 @@ const InnerHamburger = styled.div`
   width: 26px;
   height: 2px;
   position: relative;
-  background: ${({ isOpen }) => (isOpen ? 'transparent' : 'white')}
+  background: ${({ isOpen }) => (isOpen ? 'transparent' : 'white')};
 
   ::before,
   ::after {
@@ -32,17 +32,17 @@ const InnerHamburger = styled.div`
     height: 2px;
     background: white;
     left: 0;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
 
   ::before {
     transform: rotate(${({ isOpen }) => (isOpen ? '40deg' : '0')});
-    top: ${({ isOpen }) => (isOpen ? '0' : '6px')}
+    top: ${({ isOpen }) => (isOpen ? '0' : '6px')};
   }
 
   ::after {
     transform: rotate(${({ isOpen }) => (isOpen ? '-40deg' : '0')});
-    top: ${({ isOpen }) => (isOpen ? '0' : '-6px')}
+    top: ${({ isOpen }) => (isOpen ? '0' : '-6px')};
   }
 `;
 

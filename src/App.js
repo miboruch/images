@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import PhotosPage from './pages/PhotosPage/PhotosPage';
 import Photo from './pages/Photo/Photo';
 
+import NotFound from './components/NotFound/NotFound';
 import MainTemplate from './templates/MainTemplate';
 
 const App = () => {
@@ -20,8 +21,10 @@ const App = () => {
       <MainTemplate isOpen={isHamburgerOpen} toggleMenu={toggleMenu}>
         <Switch>
           <Route path='/' exact component={LandingPage} />
-          <Route path='/photospage/:query' component={PhotosPage} />
+          <Route path='/photospage/:query' exact component={PhotosPage} />
+          <Route path='/photospage/undefined' exact component={NotFound} />
           <Route path='/photo/:id' exact component={Photo} />
+          <Route component={NotFound} />
         </Switch>
       </MainTemplate>
     </Router>

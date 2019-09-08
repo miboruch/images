@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -19,13 +21,39 @@ const StyledSpan = styled.span`
   position: fixed;
 `;
 
+const StyledQuote = styled.p`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.2);
+`;
+
+const StyledButton = styled.button`
+  width: 250px;
+  height: 40px;
+  letter-spacing: 3px;
+  color: #fff;
+  position: absolute;
+  background: transparent;
+  border: 1px solid #fff;
+  transform: translate(-50%, -50%);
+  bottom: 10%;
+  left: 50%;
+  box-shadow: 10px 10px 17px -8px rgba(0, 0, 0, 0.75);
+  text-shadow: 1px 1px #333;
+  font-family: ${({ theme }) => theme.font.family.raleway};
+`;
+
 const Photo = ({ match, ...props }) => {
   const [photoData, setPhotoData] = useState({
     src: {}
   });
 
   useEffect(() => {
-    console.log('Photo USEEFFECT');
     (async () => {
       let result = await fetch(
         `https://api.pexels.com/v1/photos/${match.params.id}`,
@@ -42,12 +70,26 @@ const Photo = ({ match, ...props }) => {
     })();
   }, []);
 
+  console.log(props);
+
   return (
-    <StyledWrapper background={photoData.src.large}>
-      <Link to={`/photospage/${props.location.query}`}>
-        <StyledSpan>&#10147;</StyledSpan>
-      </Link>
-    </StyledWrapper>
+    <ErrorBoundary>
+      <StyledWrapper background={photoData.src.original}>
+        <Link to={`/photospage/${props.location.query}`}>
+          <StyledSpan>&#10147;</StyledSpan>
+        </Link>
+        <StyledQuote>&#10064; {props.location.photographer}</StyledQuote>
+        <a
+          href={`${props.location.url}`}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <StyledButton>
+            Download image from <span>pexels.com</span>
+          </StyledButton>
+        </a>
+      </StyledWrapper>
+    </ErrorBoundary>
   );
 };
 
