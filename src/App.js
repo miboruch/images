@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -13,8 +13,11 @@ const App = () => {
 
   const toggleMenu = () => {
     setHamburgerOpen(!isHamburgerOpen);
-    console.log(isHamburgerOpen);
   };
+
+  useEffect(() => {
+    console.log('app.js effect');
+  });
 
   return (
     <Router>

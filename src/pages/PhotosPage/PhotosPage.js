@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
-
-let background = '/images/header.jpg';
+import NotFound from '../../components/NotFound/NotFound';
 
 const StyledWrapper = styled.section`
   width: 100vw;
@@ -23,6 +22,7 @@ const StyledWrapper = styled.section`
 const StyledLink = styled(Link)`
   margin: 0;
   padding: 0;
+  opacity: 1;
 `;
 
 const StyledSpan = styled.span`
@@ -43,41 +43,27 @@ const StyledHeader = styled.div`
   position: relative;
   background: #000;
   text-align: center;
-  background: url(${({ background }) => background});
+  background: url('/images/background.jpg');
   background-size: cover;
   background-position: center;
   border-bottom: 4px solid #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledParagraph = styled.p`
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: #fff;
 `;
 
 const StyledHeading = styled.h1`
   font-size: 40px;
-  letter-spacing: 5px;
-  margin-top: 5rem;
-  border-bottom: 1px solid #fff;
+  letter-spacing: 10px;
   transition: all 1s ease;
-`;
-
-const StyledBorder = styled.span`
-  width: 90%;
-  height: 1px;
-  background: #fff;
-  position: absolute;
-  top: 50%;
-
-  ::before {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 15%;
-    height: 3px;
-    background: tomato;
-    top: 1px;
-  }
-
-  :hover::before {
-    width: 90%;
-    transition: all 0.5s ease;
-  }
+  margin: 0;
 `;
 
 const createRandomNumber = max => {
@@ -112,32 +98,32 @@ const PhotosPage = ({ match }) => {
     })();
   }, [match.params.query]);
 
-  console.log(data);
-
   return (
     <>
       <ErrorBoundary>
         <StyledWrapper>
           <StyledHeader>
             <StyledHeading>{match.params.query}</StyledHeading>
-            <StyledBorder></StyledBorder>
+            <StyledParagraph>Photos provided by Pexels</StyledParagraph>
           </StyledHeader>
           <Link to='/'>
             <StyledSpan>&#10147;</StyledSpan>
           </Link>
-          {data.map(item => (
-            <StyledLink
-              key={item.id}
-              to={{
-                pathname: `/photo/${item.id}`,
-                query: match.params.query,
-                photographer: item.photographer,
-                url: item.url
-              }}
-            >
-              <SinglePhoto background={item.src.large2x}></SinglePhoto>
-            </StyledLink>
-          ))}
+          {data.length === 0 ? (
+            <NotFound />
+          ) : (
+            data.map(item => (
+              <StyledLink
+                key={item.id}
+                to={{
+                  pathname: `/photo/${item.id}`,
+                  query: match.params.query
+                }}
+              >
+                <SinglePhoto background={item.src.large2x}></SinglePhoto>
+              </StyledLink>
+            ))
+          )}
         </StyledWrapper>
       </ErrorBoundary>
     </>

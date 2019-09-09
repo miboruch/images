@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { TimelineLite } from 'gsap';
 
+import Loader from '../../components/Loader/Loader';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
-  background: url(${({ background }) => background});
+  background-image: url(${({ background }) => background});
   background-size: cover;
   background-position: center;
 `;
@@ -52,6 +54,15 @@ const Photo = ({ match, ...props }) => {
   const [photoData, setPhotoData] = useState({
     src: {}
   });
+  const [isLoading, setLoading] = useState(true);
+
+  const toggleLoading = () => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  };
+
+  toggleLoading();
 
   useEffect(() => {
     (async () => {
@@ -70,20 +81,15 @@ const Photo = ({ match, ...props }) => {
     })();
   }, []);
 
-  console.log(props);
-
   return (
     <ErrorBoundary>
+      <Loader isLoading={isLoading}></Loader>
       <StyledWrapper background={photoData.src.original}>
         <Link to={`/photospage/${props.location.query}`}>
           <StyledSpan>&#10147;</StyledSpan>
         </Link>
-        <StyledQuote>&#10064; {props.location.photographer}</StyledQuote>
-        <a
-          href={`${props.location.url}`}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
+        <StyledQuote>&#10064; {photoData.photographer}</StyledQuote>
+        <a href={`${photoData.url}`} target='_blank' rel='noopener noreferrer'>
           <StyledButton>
             Download image from <span>pexels.com</span>
           </StyledButton>

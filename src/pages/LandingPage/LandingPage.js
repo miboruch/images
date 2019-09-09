@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { TimelineLite } from 'gsap';
 
 import PhotoCategory from '../../components/PhotoCategory/PhotoCategory';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -21,7 +22,7 @@ const query = [
   {
     title: 'Above',
     desc:
-      'Image collection which provide a highly detailed look at our beautiful planet',
+      'Image collection which provide a highly detailed look at everything from above',
     id: 1603821
   }
   // {
@@ -56,6 +57,9 @@ const query = [
 const LandingPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState({});
+
+  let wrapper = useRef(null);
+  let tween = new TimelineLite({ paused: true, reversed: true });
 
   useEffect(() => {
     let resultObject = [];
