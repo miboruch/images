@@ -18,3 +18,22 @@ a{
   color: white;
   text-decoration: none;
 }
+
+.fade-enter .fade-enter-active{
+  opacity: 0;
+  z-index: -90;
+}
+
+.fade-enter-active{
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.fade-exit .fade-exit-active{
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 1s ease-in;
+}

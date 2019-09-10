@@ -84,7 +84,6 @@ const StyledQuote = styled.p`
 `;
 
 const PhotoCategory = ({ clicked, data }) => {
-  console.log(data.photographer_url);
   return (
     <StyledWrapper onClick={clicked} background={data.src.landscape}>
       <StyledSection>

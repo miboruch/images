@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import LandingPage from './pages/LandingPage/LandingPage';
 import PhotosPage from './pages/PhotosPage/PhotosPage';
@@ -15,21 +16,29 @@ const App = () => {
     setHamburgerOpen(!isHamburgerOpen);
   };
 
-  useEffect(() => {
-    console.log('app.js effect');
-  });
-
   return (
     <Router>
-      <MainTemplate isOpen={isHamburgerOpen} toggleMenu={toggleMenu}>
-        <Switch>
-          <Route path='/' exact component={LandingPage} />
-          <Route path='/photospage/:query' exact component={PhotosPage} />
-          <Route path='/photospage/undefined' exact component={NotFound} />
-          <Route path='/photo/:id' exact component={Photo} />
-          <Route component={NotFound} />
-        </Switch>
-      </MainTemplate>
+      <Route
+        render={({ location }) => (
+          <MainTemplate isOpen={isHamburgerOpen} toggleMenu={toggleMenu}>
+            <TransitionGroup>
+              <CSSTransition
+                key={location.key}
+                timeout={1000}
+                classNames='fade'
+              >
+                <Switch location={location}>
+                  <Route path='/' exact component={LandingPage} />
+                  <Route path='/photospage/:query' component={PhotosPage} />
+                  <Route path='/photospage/undefined' component={NotFound} />
+                  <Route path='/photo/:id' component={Photo} />
+                  <Route component={NotFound} />
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          </MainTemplate>
+        )}
+      ></Route>
     </Router>
   );
 };

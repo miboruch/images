@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -54,7 +54,7 @@ const StyledHeader = styled.div`
 `;
 
 const StyledParagraph = styled.p`
-  font-size: 14px;
+  font-size: 11px;
   letter-spacing: 4px;
   color: #fff;
 `;
@@ -66,15 +66,10 @@ const StyledHeading = styled.h1`
   margin: 0;
 `;
 
-const createRandomNumber = max => {
-  return Math.floor(Math.random() * max) + 1;
-};
-
 const PhotosPage = ({ match }) => {
   const [data, setData] = useState([{ src: {} }]);
 
   useEffect(() => {
-    console.log('PhotosPage USEEFFECT');
     let resultObject = [];
     (async () => {
       let result = await fetch(
@@ -91,7 +86,6 @@ const PhotosPage = ({ match }) => {
 
       resultObject = [...resultObject, ...data.photos];
       setData(resultObject);
-
       return () => {
         setData([{ src: {} }]);
       };
@@ -99,34 +93,32 @@ const PhotosPage = ({ match }) => {
   }, [match.params.query]);
 
   return (
-    <>
-      <ErrorBoundary>
-        <StyledWrapper>
-          <StyledHeader>
-            <StyledHeading>{match.params.query}</StyledHeading>
-            <StyledParagraph>Photos provided by Pexels</StyledParagraph>
-          </StyledHeader>
-          <Link to='/'>
-            <StyledSpan>&#10147;</StyledSpan>
-          </Link>
-          {data.length === 0 ? (
-            <NotFound />
-          ) : (
-            data.map(item => (
-              <StyledLink
-                key={item.id}
-                to={{
-                  pathname: `/photo/${item.id}`,
-                  query: match.params.query
-                }}
-              >
-                <SinglePhoto background={item.src.large2x}></SinglePhoto>
-              </StyledLink>
-            ))
-          )}
-        </StyledWrapper>
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary>
+      <StyledWrapper>
+        <StyledHeader>
+          <StyledHeading>{match.params.query}</StyledHeading>
+          <StyledParagraph>Photos provided by Pexels</StyledParagraph>
+        </StyledHeader>
+        <Link to='/'>
+          <StyledSpan>&#10147;</StyledSpan>
+        </Link>
+        {data.length === 0 ? (
+          <NotFound></NotFound>
+        ) : (
+          data.map(item => (
+            <StyledLink
+              key={item.id}
+              to={{
+                pathname: `/photo/${item.id}`,
+                query: match.params.query
+              }}
+            >
+              <SinglePhoto background={item.src.large2x}></SinglePhoto>
+            </StyledLink>
+          ))
+        )}
+      </StyledWrapper>
+    </ErrorBoundary>
   );
 };
 

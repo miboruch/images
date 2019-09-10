@@ -19,11 +19,11 @@ const StyledWrapper = styled.div`
 
 const StyledParagraph = styled.p`
   font-size: 20px;
-  letter-spacing: 3px;
+  letter-spacing: 6px;
   color: #fff;
 `;
 
-const StyledBox = styled.div`
+const StyledProgressBar = styled.div`
   width: 80%;
   height: 5px;
   background: tomato;
@@ -34,14 +34,15 @@ const StyledBox = styled.div`
 
 const Loader = ({ isLoading }) => {
   let text = useRef(null);
+  let bar = useRef(null);
   let box = useRef(null);
 
-  let tween = new TimelineLite({ paused: true, reversed: true });
+  let tween = new TimelineLite({ paused: true });
 
   useEffect(() => {
     tween
-      .fromTo(text, 1, { y: 0 }, { y: -10 })
-      .fromTo(box, 2.5, { width: 0 }, { width: '100%' });
+      .fromTo(text, 0.5, { y: 0 }, { y: -10 })
+      .fromTo(bar, 2, { width: 0 }, { width: '100%' });
     tween.play();
   });
 
@@ -50,7 +51,7 @@ const Loader = ({ isLoading }) => {
       <StyledParagraph ref={element => (text = element)}>
         Loading...
       </StyledParagraph>
-      <StyledBox ref={element => (box = element)}></StyledBox>
+      <StyledProgressBar ref={element => (bar = element)}></StyledProgressBar>
     </StyledWrapper>
   );
 };

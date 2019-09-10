@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { TimelineLite } from 'gsap';
 
 import PhotoCategory from '../../components/PhotoCategory/PhotoCategory';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -58,12 +57,9 @@ const LandingPage = () => {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState({});
 
-  let wrapper = useRef(null);
-  let tween = new TimelineLite({ paused: true, reversed: true });
-
   useEffect(() => {
     let resultObject = [];
-    console.log('Landing page USEEFFECT');
+
     query.map(async ({ title, desc, id }) => {
       let result = await fetch(`https://api.pexels.com/v1/photos/${id}`, {
         headers: {
@@ -73,7 +69,7 @@ const LandingPage = () => {
       });
 
       let data = await result.json();
-      console.log(data);
+
       resultObject = [
         ...resultObject,
         { query: title, description: desc, ...data }
@@ -85,7 +81,6 @@ const LandingPage = () => {
 
   const updateCategoryHandler = index => {
     setSelected(data[index]);
-    console.log(selected);
   };
 
   return (

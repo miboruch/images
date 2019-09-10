@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledBox = styled.div`
-  width: calc(33vw - 1px);
+  width: calc(33vw-1px);
   height: 200px;
   background-image: url(${({ background }) => background});
   background-size: cover;
