@@ -85,13 +85,16 @@ const StyledQuote = styled.p`
 
 const PhotoCategory = ({ clicked, data }) => {
   return (
-    <StyledWrapper onClick={clicked} background={data.src.landscape}>
+    <StyledWrapper
+      onClick={clicked}
+      background={data.data.hits[0].largeImageURL}
+    >
       <StyledSection>
         <StyledHeading>{data.query}</StyledHeading>
         <StyledBorder></StyledBorder>
         <StyledParagraph>{data.description}</StyledParagraph>
       </StyledSection>
-      <StyledQuote>&#10064; {data.photographer}</StyledQuote>
+      <StyledQuote>&#10064; {data.data.hits[0].user}</StyledQuote>
     </StyledWrapper>
   );
 };

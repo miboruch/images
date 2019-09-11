@@ -150,12 +150,10 @@ const Menu = ({ isOpen, toggleMenu }) => {
 
   const setSearchOpenHandler = () => {
     setSearchOpen(!searchOpen);
-    console.log(searchOpen);
   };
 
   const setQueryHandler = event => {
     setQuery(event.target.value);
-    console.log(query);
   };
 
   return (

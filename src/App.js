@@ -30,7 +30,11 @@ const App = () => {
                 <Switch location={location}>
                   <Route path='/' exact component={LandingPage} />
                   <Route path='/photospage/:query' component={PhotosPage} />
-                  <Route path='/photospage/undefined' component={NotFound} />
+                  <Route
+                    path='/photospage/undefined'
+                    exact
+                    component={NotFound}
+                  />
                   <Route path='/photo/:id' component={Photo} />
                   <Route component={NotFound} />
                 </Switch>

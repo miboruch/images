@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import Loader from '../../components/Loader/Loader';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -51,7 +52,9 @@ const StyledButton = styled.button`
 
 const Photo = ({ match, ...props }) => {
   const [photoData, setPhotoData] = useState({
-    src: {}
+    data: {
+      hits: [{}]
+    }
   });
   const [isLoading, setLoading] = useState(true);
 
@@ -65,32 +68,29 @@ const Photo = ({ match, ...props }) => {
 
   useEffect(() => {
     (async () => {
-      let result = await fetch(
-        `https://api.pexels.com/v1/photos/${match.params.id}`,
-        {
-          headers: {
-            Authorization:
-              '563492ad6f91700001000001fb5032b28abc41948df5fcc591ef064f'
-          }
-        }
+      let result = await axios(
+        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&id=${match.params.id}`
       );
 
-      let data = await result.json();
-      setPhotoData(data);
+      setPhotoData(result);
     })();
   }, []);
 
   return (
     <ErrorBoundary>
       <Loader isLoading={isLoading}></Loader>
-      <StyledWrapper background={photoData.src.original}>
+      <StyledWrapper background={photoData.data.hits[0].largeImageURL}>
         <Link to={`/photospage/${props.location.query}`}>
           <StyledSpan>&#10147;</StyledSpan>
         </Link>
-        <StyledQuote>&#10064; {photoData.photographer}</StyledQuote>
-        <a href={`${photoData.url}`} target='_blank' rel='noopener noreferrer'>
+        <StyledQuote>&#10064; {photoData.data.hits[0].user}</StyledQuote>
+        <a
+          href={`${photoData.data.hits[0].pageURL}`}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
           <StyledButton>
-            Download image from <span>pexels.com</span>
+            Download image from <span>pixabay.com</span>
           </StyledButton>
         </a>
       </StyledWrapper>

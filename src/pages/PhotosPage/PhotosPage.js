@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -72,19 +73,13 @@ const PhotosPage = ({ match }) => {
   useEffect(() => {
     let resultObject = [];
     (async () => {
-      let result = await fetch(
-        `https://api.pexels.com/v1/search?query=${match.params.query}+query&per_page=50&page=1`,
-        {
-          headers: {
-            Authorization:
-              '563492ad6f91700001000001fb5032b28abc41948df5fcc591ef064f'
-          }
-        }
+      let result = await axios(
+        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}`
       );
 
-      let data = await result.json();
+      console.log(result);
 
-      resultObject = [...resultObject, ...data.photos];
+      resultObject = [...resultObject, ...result.data.hits];
       setData(resultObject);
       return () => {
         setData([{ src: {} }]);
@@ -97,7 +92,7 @@ const PhotosPage = ({ match }) => {
       <StyledWrapper>
         <StyledHeader>
           <StyledHeading>{match.params.query}</StyledHeading>
-          <StyledParagraph>Photos provided by Pexels</StyledParagraph>
+          <StyledParagraph>Photos provided by Pixabay</StyledParagraph>
         </StyledHeader>
         <Link to='/'>
           <StyledSpan>&#10147;</StyledSpan>
@@ -113,7 +108,7 @@ const PhotosPage = ({ match }) => {
                 query: match.params.query
               }}
             >
-              <SinglePhoto background={item.src.large2x}></SinglePhoto>
+              <SinglePhoto background={item.largeImageURL}></SinglePhoto>
             </StyledLink>
           ))
         )}
