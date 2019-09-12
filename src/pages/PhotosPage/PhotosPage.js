@@ -7,6 +7,8 @@ import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import NotFound from '../../components/NotFound/NotFound';
 
+let MAX_PAGES = null;
+
 const StyledWrapper = styled.section`
   width: 100vw;
   min-height: 100vh;
@@ -44,7 +46,7 @@ const StyledHeader = styled.div`
   position: relative;
   background: #000;
   text-align: center;
-  background: url('/images/background.jpg');
+  background: url(${({ background }) => background});
   background-size: cover;
   background-position: center;
   border-bottom: 4px solid #000;
@@ -67,30 +69,72 @@ const StyledHeading = styled.h1`
   margin: 0;
 `;
 
-const PhotosPage = ({ match }) => {
-  const [data, setData] = useState([{ src: {} }]);
+const StyledIcon = styled(StyledSpan)`
+  color: #ccc;
+  position: static;
+  transform: rotate(0);
+  cursor: pointer;
+`;
+
+const StyledLeftArrow = styled(StyledIcon)`
+  display: ${({ page }) => (page === 1 ? 'none' : 'block')};
+`;
+
+const StyledRightArrow = styled(StyledIcon)`
+  display: ${({ page }) => (page === MAX_PAGES ? 'none' : 'block')};
+`;
+
+const StyledNavigation = styled.nav`
+  width: 100%;
+  height: 40px;
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  transition: all 1s ease;
+
+  :hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+`;
+
+const PhotosPage = ({ match, location }) => {
+  const [data, setData] = useState([{ id: 0 }]);
+  const [pageNumber, setPageNumber] = useState(1);
+  console.log(pageNumber);
+  const incrementPageNumberHandler = () => {
+    setPageNumber(pageNumber + 1);
+  };
+
+  const decrementPageNumberHandler = () => {
+    setPageNumber(pageNumber - 1);
+  };
 
   useEffect(() => {
     let resultObject = [];
     (async () => {
       let result = await axios(
-        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}`
+        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${pageNumber}&per_page=21`
       );
 
-      console.log(result);
+      MAX_PAGES = result.data.totalHits / result.data.hits.length;
 
       resultObject = [...resultObject, ...result.data.hits];
       setData(resultObject);
+
       return () => {
         setData([{ src: {} }]);
       };
     })();
-  }, [match.params.query]);
+  }, [pageNumber, match.params.query]);
 
   return (
     <ErrorBoundary>
       <StyledWrapper>
-        <StyledHeader>
+        <StyledHeader background={location.photoURL}>
           <StyledHeading>{match.params.query}</StyledHeading>
           <StyledParagraph>Photos provided by Pixabay</StyledParagraph>
         </StyledHeader>
@@ -113,6 +157,18 @@ const PhotosPage = ({ match }) => {
           ))
         )}
       </StyledWrapper>
+
+      <StyledNavigation>
+        <StyledLeftArrow page={pageNumber} onClick={decrementPageNumberHandler}>
+          &#8592;
+        </StyledLeftArrow>
+        <StyledRightArrow
+          page={pageNumber}
+          onClick={incrementPageNumberHandler}
+        >
+          &#8594;
+        </StyledRightArrow>
+      </StyledNavigation>
     </ErrorBoundary>
   );
 };

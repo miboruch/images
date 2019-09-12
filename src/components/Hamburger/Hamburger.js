@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+
+import MenuContext from '../../context/MenuContext';
 
 const StyledHamburger = styled.button`
   cursor: pointer;
@@ -46,9 +48,11 @@ const InnerHamburger = styled.div`
   }
 `;
 
-const Hamburger = ({ isOpen, ...props }) => {
+const Hamburger = () => {
+  const { isOpen, toggleMenu } = useContext(MenuContext);
+
   return (
-    <StyledHamburger onClick={props.toggleMenu}>
+    <StyledHamburger onClick={toggleMenu}>
       <InnerHamburger isOpen={isOpen}></InnerHamburger>
     </StyledHamburger>
   );

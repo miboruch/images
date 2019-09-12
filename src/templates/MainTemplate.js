@@ -7,14 +7,14 @@ import SEO from '../components/SEO/SEO';
 import Hamburger from '../components/Hamburger/Hamburger';
 import Menu from '../components/Menu/Menu';
 
-const MainTemplate = ({ children, isOpen, toggleMenu }) => (
+const MainTemplate = ({ children }) => (
   <>
     <SEO />
     <GlobalStyle />
     <ThemeProvider theme={theme}>
       <>
-        <Hamburger isOpen={isOpen} toggleMenu={toggleMenu}></Hamburger>
-        <Menu isOpen={isOpen} toggleMenu={toggleMenu}></Menu>
+        <Hamburger></Hamburger>
+        <Menu></Menu>
         {children}
       </>
     </ThemeProvider>
@@ -25,9 +25,7 @@ MainTemplate.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  toggleMenu: PropTypes.func.isRequired
+  ]).isRequired
 };
 
 export default MainTemplate;

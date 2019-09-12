@@ -35,7 +35,6 @@ const StyledProgressBar = styled.div`
 const Loader = ({ isLoading }) => {
   let text = useRef(null);
   let bar = useRef(null);
-  let box = useRef(null);
 
   let tween = new TimelineLite({ paused: true });
 

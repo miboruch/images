@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
+import MenuContext from '../../context/MenuContext';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -144,9 +146,11 @@ const StyledLink = styled(Link)`
   height: 100%;
 `;
 
-const Menu = ({ isOpen, toggleMenu }) => {
+const Menu = () => {
   const [query, setQuery] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  let { isOpen, toggleMenu } = useContext(MenuContext);
 
   const setSearchOpenHandler = () => {
     setSearchOpen(!searchOpen);

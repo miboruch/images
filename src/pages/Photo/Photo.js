@@ -48,9 +48,11 @@ const StyledButton = styled.button`
   box-shadow: 10px 10px 17px -8px rgba(0, 0, 0, 0.75);
   text-shadow: 1px 1px #333;
   font-family: ${({ theme }) => theme.font.family.raleway};
+  cursor: pointer;
 `;
 
-const Photo = ({ match, ...props }) => {
+const Photo = ({ match, location }) => {
+  console.log(location);
   const [photoData, setPhotoData] = useState({
     data: {
       hits: [{}]
@@ -80,7 +82,7 @@ const Photo = ({ match, ...props }) => {
     <ErrorBoundary>
       <Loader isLoading={isLoading}></Loader>
       <StyledWrapper background={photoData.data.hits[0].largeImageURL}>
-        <Link to={`/photospage/${props.location.query}`}>
+        <Link to={`/photospage/${location.query}`}>
           <StyledSpan>&#10147;</StyledSpan>
         </Link>
         <StyledQuote>&#10064; {photoData.data.hits[0].user}</StyledQuote>
