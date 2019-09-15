@@ -52,12 +52,12 @@ const StyledButton = styled.button`
 `;
 
 const Photo = ({ match, location }) => {
-  console.log(location);
   const [photoData, setPhotoData] = useState({
     data: {
       hits: [{}]
     }
   });
+
   const [isLoading, setLoading] = useState(true);
 
   const toggleLoading = () => {

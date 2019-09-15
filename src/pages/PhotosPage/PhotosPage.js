@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +6,8 @@ import axios from 'axios';
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import NotFound from '../../components/NotFound/NotFound';
+
+import { reducer } from '../../reducers/reducers';
 
 let MAX_PAGES = null;
 
@@ -103,21 +105,14 @@ const StyledNavigation = styled.nav`
 
 const PhotosPage = ({ match, location }) => {
   const [data, setData] = useState([{ id: 0 }]);
-  const [pageNumber, setPageNumber] = useState(1);
-  console.log(pageNumber);
-  const incrementPageNumberHandler = () => {
-    setPageNumber(pageNumber + 1);
-  };
 
-  const decrementPageNumberHandler = () => {
-    setPageNumber(pageNumber - 1);
-  };
+  const [state, dispatch] = useReducer(reducer, { pageNumber: 1 });
 
   useEffect(() => {
     let resultObject = [];
     (async () => {
       let result = await axios(
-        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${pageNumber}&per_page=21`
+        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
       );
 
       MAX_PAGES = result.data.totalHits / result.data.hits.length;
@@ -129,7 +124,7 @@ const PhotosPage = ({ match, location }) => {
         setData([{ src: {} }]);
       };
     })();
-  }, [pageNumber, match.params.query]);
+  }, [state.pageNumber, match.params.query]);
 
   return (
     <ErrorBoundary>
@@ -159,12 +154,15 @@ const PhotosPage = ({ match, location }) => {
       </StyledWrapper>
 
       <StyledNavigation>
-        <StyledLeftArrow page={pageNumber} onClick={decrementPageNumberHandler}>
+        <StyledLeftArrow
+          page={state.pageNumber}
+          onClick={() => dispatch({ type: 'DECREMENT' })}
+        >
           &#8592;
         </StyledLeftArrow>
         <StyledRightArrow
-          page={pageNumber}
-          onClick={incrementPageNumberHandler}
+          page={state.pageNumber}
+          onClick={() => dispatch({ type: 'INCREMENT' })}
         >
           &#8594;
         </StyledRightArrow>

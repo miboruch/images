@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useReducer, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import MenuContext from '../../context/MenuContext';
+
+import { reducer } from '../../reducers/reducers';
 
 const StyledWrapper = styled.div`
   width: 100%;
