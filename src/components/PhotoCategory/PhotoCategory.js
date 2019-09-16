@@ -10,14 +10,27 @@ const StyledWrapper = styled.article`
   background-size: cover;
   background-position: center;
   background: 'lightgreen';
-  padding-left: 1em;
   z-index: 50;
+  padding-left: 1em;
 `;
 
 const StyledSection = styled.section`
   width: 100%;
   position: relative;
   padding-top: 2.8em;
+  padding-bottom: 2.8em;
+
+  ::before {
+    content: '';
+    width: calc(100% + 1em);
+    height: 100%;
+    bottom: 0;
+    left: -1em;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: -5;
+    filter: blur(10px);
+  }
 
   ${({ theme }) => theme.mq.mobileL} {
     padding-top: 4em;

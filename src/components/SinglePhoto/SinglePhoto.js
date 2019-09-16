@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledBox = styled.div`
-  width: calc(33vw - 1px);
+  width: calc((100vw / 3) - 2px);
   height: 200px;
   background-image: url(${({ background }) => background});
   background-size: cover;
@@ -11,6 +11,10 @@ const StyledBox = styled.div`
   padding: 0;
   transition: all 1s ease;
   border: 1px solid #000;
+
+  ${({ theme }) => theme.mq.desktop} {
+    width: calc((100vw / 3) - 8px);
+  }
 `;
 
 const SinglePhoto = ({ background }) => {

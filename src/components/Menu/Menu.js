@@ -1,10 +1,8 @@
-import React, { useState, useContext, useReducer, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import MenuContext from '../../context/MenuContext';
-
-import { reducer } from '../../reducers/reducers';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -73,6 +71,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   opacity: ${({ isSearchOpen }) => (isSearchOpen ? 1 : 0)};
+  visibility: ${({ isSearchOpen }) => (isSearchOpen ? 'visible' : 'hidden')};
   transition: all 1s ease;
 
   ${({ theme }) => theme.mq.tablet} {
@@ -122,6 +121,8 @@ const StyledButton = styled.button`
   border: none;
   color: #fff;
   letter-spacing: 3px;
+  font-family: ${({ theme }) => theme.font.family.raleway};
+  transition: color 0.5s ease;
 
   ::before {
     content: '';
@@ -140,6 +141,10 @@ const StyledButton = styled.button`
     transform: skew(1deg, 1deg);
     background: linear-gradient(315deg, #e64a19, #ff0057);
     transition: all 2s ease;
+  }
+
+  :disabled {
+    color: #333;
   }
 `;
 
@@ -178,7 +183,12 @@ const Menu = () => {
           onChange={setQueryHandler}
         ></StyledInput>
         <StyledLink to={`/photospage/${query}`}>
-          <StyledButton onClick={() => toggleMenu()}>Click</StyledButton>
+          <StyledButton
+            onClick={() => toggleMenu()}
+            disabled={query === null || query === '' ? true : false}
+          >
+            Click
+          </StyledButton>
         </StyledLink>
       </StyledForm>
     </StyledWrapper>

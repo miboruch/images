@@ -1,7 +1,5 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-
-import { reducer } from '../../reducers/reducers';
 
 import MenuContext from '../../context/MenuContext';
 

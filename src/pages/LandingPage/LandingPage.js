@@ -12,6 +12,15 @@ const StyledWrapper = styled.section`
   width: 100%;
   min-height: 100vh;
   background: #000;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledLink = styled(Link)`
+  ${({ theme }) => theme.mq.desktop} {
+    width: 50%;
+    margin: auto;
+  }
 `;
 
 const LandingPage = () => {
@@ -42,7 +51,7 @@ const LandingPage = () => {
     <ErrorBoundary>
       <StyledWrapper>
         {data.map((item, index) => (
-          <Link
+          <StyledLink
             key={item.data.hits[0].id}
             to={{
               pathname: `/photospage/${item.query}`,
@@ -53,7 +62,7 @@ const LandingPage = () => {
               clicked={() => updateCategoryHandler(index)}
               data={item}
             ></PhotoCategory>
-          </Link>
+          </StyledLink>
         ))}
       </StyledWrapper>
     </ErrorBoundary>

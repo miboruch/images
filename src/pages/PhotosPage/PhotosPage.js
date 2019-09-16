@@ -12,7 +12,7 @@ import { reducer } from '../../reducers/reducers';
 let MAX_PAGES = null;
 
 const StyledWrapper = styled.section`
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   position: absolute;
   top: 0;
@@ -51,7 +51,7 @@ const StyledHeader = styled.div`
   background: url(${({ background }) => background});
   background-size: cover;
   background-position: center;
-  border-bottom: 4px solid #000;
+  border-bottom: 1px solid #000;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,7 +153,7 @@ const PhotosPage = ({ match, location }) => {
         )}
       </StyledWrapper>
 
-      <StyledNavigation>
+      <StyledNavigation allPages={data.length}>
         <StyledLeftArrow
           page={state.pageNumber}
           onClick={() => dispatch({ type: 'DECREMENT' })}
