@@ -53,38 +53,6 @@ const App = () => {
       ></Route>
     </Router>
   );
-
-  // return (
-  //   <Router>
-  //     <>
-  //       <MenuContext.Provider
-  //         value={{ isOpen: isHamburgerOpen, toggleMenu: toggleMenu }}
-  //       >
-  //         <MainTemplate>
-  //           <TransitionGroup>
-  //             <CSSTransition
-  //               key={location.key}
-  //               timeout={{ enter: 1000, exit: 1000 }}
-  //               classNames={'fade'}
-  //             >
-  //               <Switch location={location}>
-  //                 <Route path='/' exact component={LandingPage} />
-  //                 <Route path='/photospage/:query' component={PhotosPage} />
-  //                 <Route
-  //                   path='/photospage/undefined'
-  //                   exact
-  //                   component={NotFound}
-  //                 />
-  //                 <Route path='/photo/:id' component={Photo} />
-  //                 <Route component={NotFound} />
-  //               </Switch>
-  //             </CSSTransition>
-  //           </TransitionGroup>
-  //         </MainTemplate>
-  //       </MenuContext.Provider>
-  //     </>
-  //   </Router>
-  // );
 };
 
 export default App;
