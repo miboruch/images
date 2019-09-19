@@ -42,7 +42,7 @@ const App = () => {
                         component={NotFound}
                       />
                       <Route path='/photo/:id' component={Photo} />
-                      <Route component={NotFound} />
+                      <Route path='*' exact={true} component={NotFound} />
                     </Switch>
                   </CSSTransition>
                 </TransitionGroup>

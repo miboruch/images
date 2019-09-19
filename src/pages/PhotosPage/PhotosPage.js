@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import NotFound from '../../components/NotFound/NotFound';
 
 import { reducer } from '../../reducers/reducers';
@@ -111,14 +110,18 @@ const PhotosPage = ({ match, location }) => {
   useEffect(() => {
     let resultObject = [];
     (async () => {
-      let result = await axios(
-        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
-      );
+      try {
+        let result = await axios(
+          `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
+        );
 
-      MAX_PAGES = result.data.totalHits / result.data.hits.length;
+        MAX_PAGES = result.data.totalHits / result.data.hits.length;
 
-      resultObject = [...resultObject, ...result.data.hits];
-      setData(resultObject);
+        resultObject = [...resultObject, ...result.data.hits];
+        setData(resultObject);
+      } catch (e) {
+        console.log(e);
+      }
 
       return () => {
         setData([{ src: {} }]);
@@ -127,7 +130,7 @@ const PhotosPage = ({ match, location }) => {
   }, [state.pageNumber, match.params.query]);
 
   return (
-    <ErrorBoundary>
+    <>
       <StyledWrapper>
         <StyledHeader background={location.photoURL}>
           <StyledHeading>{match.params.query}</StyledHeading>
@@ -167,7 +170,7 @@ const PhotosPage = ({ match, location }) => {
           &#8594;
         </StyledRightArrow>
       </StyledNavigation>
-    </ErrorBoundary>
+    </>
   );
 };
 
