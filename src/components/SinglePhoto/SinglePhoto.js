@@ -3,18 +3,22 @@ import styled from 'styled-components';
 
 const StyledBox = styled.div`
   width: calc((100vw / 3) - 2px);
-  height: 210px;
+  height: 25vh;
   background-image: url(${({ background }) => background});
   background-size: cover;
   background-position: center;
   margin: 0 !important;
   padding: 0;
   transition: all 1s ease;
-  border: 1px solid #000;
+  border: 1px solid #fff;
+
+  ${({ theme }) => theme.mq.tablet} {
+    height: 25vh;
+  }
 
   ${({ theme }) => theme.mq.desktop} {
-    ${'' /* width: calc((100% / 3) - 8px); */}
-    width: calc(50vw/3 - 5px);
+    width: calc(50vw / 3 - 5px);
+    height: 25vh;
   }
 `;
 

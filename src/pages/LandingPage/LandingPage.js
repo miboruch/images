@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Route, Link } from 'react-router-dom';
 
 import PhotoCategory from '../../components/PhotoCategory/PhotoCategory';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
+import CategoryContext from '../../context/CategoryContext';
 import PhotosPage from '../PhotosPage/PhotosPage';
 import NotFound from '../../components/NotFound/NotFound';
-
-import query from './photoCategories';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -32,52 +28,17 @@ const StyledLink = styled(Link)`
 `;
 
 const LandingPage = () => {
-  const [data, setData] = useState([]);
   const [selected, setSelected] = useState({});
 
-  useEffect(() => {
-    let resultObject = [];
-
-    query.map(async ({ title, desc, id }) => {
-      let result = await axios(
-        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&id=${id}`
-      );
-
-      resultObject = [
-        ...resultObject,
-        { query: title, description: desc, ...result }
-      ];
-      setData(resultObject);
-    });
-  }, []);
+  const { categories } = useContext(CategoryContext);
 
   const updateCategoryHandler = index => {
-    setSelected(data[index]);
+    setSelected(categories[index]);
   };
 
   return (
-<<<<<<< Updated upstream
-    <ErrorBoundary>
-      <StyledWrapper>
-        {data.map((item, index) => (
-          <StyledLink
-            key={item.data.hits[0].id}
-            to={{
-              pathname: `/photospage/${item.query}`,
-              photoURL: item.data.hits[0].largeImageURL
-            }}
-          >
-            <PhotoCategory
-              clicked={() => updateCategoryHandler(index)}
-              data={item}
-            ></PhotoCategory>
-          </StyledLink>
-        ))}
-      </StyledWrapper>
-    </ErrorBoundary>
-=======
     <StyledWrapper>
-      {data.map((item, index) => (
+      {categories.map((item, index) => (
         <StyledLink
           key={item.data.hits[0].id}
           to={{
@@ -91,10 +52,9 @@ const LandingPage = () => {
           ></PhotoCategory>
         </StyledLink>
       ))}
-      <Route path='/photospage/:query' component={PhotosPage} />
       <Route path='/photospage/undefined' exact component={NotFound} />
+      <Route path='/photospage/:query' component={PhotosPage} />
     </StyledWrapper>
->>>>>>> Stashed changes
   );
 };
 

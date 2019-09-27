@@ -9,11 +9,6 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
-<<<<<<< Updated upstream
-  background-image: url(${({ background }) => background});
-  background-size: cover;
-  background-position: center;
-=======
   z-index: 99;
 `;
 
@@ -21,7 +16,6 @@ const StyledImage = styled.img`
   width: 100%;
   height: 100vh;
   object-fit: cover;
->>>>>>> Stashed changes
 `;
 
 const StyledSpan = styled.span`
@@ -31,6 +25,9 @@ const StyledSpan = styled.span`
   text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
   color: white;
   position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 700;
 `;
 
 const StyledQuote = styled.p`
@@ -91,7 +88,8 @@ const Photo = ({ match, location }) => {
   return (
     <ErrorBoundary>
       <Loader isLoading={isLoading}></Loader>
-      <StyledWrapper background={photoData.data.hits[0].largeImageURL}>
+      <StyledWrapper>
+        <StyledImage src={photoData.data.hits[0].largeImageURL}></StyledImage>
         <Link to={`/photospage/${location.query}`}>
           <StyledSpan>&#10147;</StyledSpan>
         </Link>

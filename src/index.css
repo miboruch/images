@@ -1,9 +1,9 @@
-@font-face{
+@font-face {
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 400;
   src: url('./assets/fonts/raleway-regular.woff') format('woff'),
-       url('./assets/fonts/raleway-regular.woff2') format('woff2');
+    url('./assets/fonts/raleway-regular.woff2') format('woff2');
 }
 
 body {
@@ -15,7 +15,7 @@ body {
   box-sizing: border-box;
 }
 
-a{
+a {
   color: white;
   text-decoration: none;
 }

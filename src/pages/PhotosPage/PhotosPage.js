@@ -10,6 +10,8 @@ import NotFound from '../../components/NotFound/NotFound';
 
 import { reducer } from '../../reducers/reducers';
 
+let hero = '/images/background.jpg';
+
 let MAX_PAGES = null;
 
 const StyledWrapper = styled.section`
@@ -54,7 +56,7 @@ const StyledSpan = styled.span`
 
 const StyledHeader = styled.div`
   width: 100%;
-  height: 250px;
+  height: 25vh;
   margin: auto;
   position: relative;
   background: #000;
@@ -62,7 +64,7 @@ const StyledHeader = styled.div`
   background: url(${({ background }) => background});
   background-size: cover;
   background-position: center;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -128,22 +130,18 @@ const PhotosPage = ({ match, location }) => {
   useEffect(() => {
     let resultObject = [];
     (async () => {
-<<<<<<< Updated upstream
-      let result = await axios(
-        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
-      );
-=======
       try {
         let result = await axios(
-          `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=24`
+          `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
         );
->>>>>>> Stashed changes
 
-      MAX_PAGES = result.data.totalHits / result.data.hits.length;
+        MAX_PAGES = result.data.totalHits / result.data.hits.length;
 
-      resultObject = [...resultObject, ...result.data.hits];
-      setData(resultObject);
-
+        resultObject = [...resultObject, ...result.data.hits];
+        setData(resultObject);
+      } catch (e) {
+        console.log(e);
+      }
       return () => {
         setData([{ src: {} }]);
       };
@@ -153,7 +151,7 @@ const PhotosPage = ({ match, location }) => {
   return (
     <ErrorBoundary>
       <StyledWrapper>
-        <StyledHeader background={location.photoURL}>
+        <StyledHeader background={location.photoURL || hero}>
           <StyledHeading>{match.params.query}</StyledHeading>
           <StyledParagraph>Photos provided by Pixabay</StyledParagraph>
         </StyledHeader>

@@ -1,22 +1,55 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useState, useEffect, useContext, useReducer } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import axios from 'axios';
 
 import LandingPage from './pages/LandingPage/LandingPage';
-import PhotosPage from './pages/PhotosPage/PhotosPage';
 import Photo from './pages/Photo/Photo';
 
 import MenuContext from './context/MenuContext';
+import CategoryContext from './context/CategoryContext';
+
+import { categoryReducer } from './reducers/categoryReducer';
 
 import NotFound from './components/NotFound/NotFound';
 import MainTemplate from './templates/MainTemplate';
 
+import query from './pages/LandingPage/photoCategories';
+
 const App = () => {
   const [isHamburgerOpen, setHamburgerOpen] = useState(false);
+
+  const context = useContext(CategoryContext);
+  const [state, dispatch] = useReducer(categoryReducer, context);
 
   const toggleMenu = () => {
     setHamburgerOpen(!isHamburgerOpen);
   };
+
+  useEffect(() => {
+    let resultObject = [];
+
+    query.map(async ({ title, desc, id }) => {
+      let result = await axios(
+        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&id=${id}`
+      );
+
+      resultObject = [
+        ...resultObject,
+        { query: title, description: desc, ...result }
+      ];
+
+      dispatch({
+        type: 'GET_DATA_SUCCESS',
+        payload: resultObject
+      });
+    });
+  }, []);
 
   return (
     <Router>
@@ -26,34 +59,33 @@ const App = () => {
             <MenuContext.Provider
               value={{ isOpen: isHamburgerOpen, toggleMenu: toggleMenu }}
             >
-              <MainTemplate>
-                <TransitionGroup>
-                  <CSSTransition
-                    key={location.key}
-                    timeout={{ enter: 1000, exit: 1000 }}
-                    classNames={'fade'}
-                  >
-                    <Switch location={location}>
-                      <Route path='/photo/:id' component={Photo} />
-                      <Route path='/' component={LandingPage} />
-                      {/* exact */}
-                      {/* <Route path='/photospage/:query' component={PhotosPage} />
-                      <Route
-                        path='/photospage/undefined'
-                        exact
-                        component={NotFound}
-<<<<<<< Updated upstream
-                      />
-                      <Route path='/photo/:id' component={Photo} />
-                      <Route component={NotFound} />
-=======
-                      /> */}
-                      <Route path='*' exact={true} component={NotFound} />
->>>>>>> Stashed changes
-                    </Switch>
-                  </CSSTransition>
-                </TransitionGroup>
-              </MainTemplate>
+              <CategoryContext.Provider
+                value={{ categories: state.categories }}
+              >
+                <MainTemplate>
+                  <TransitionGroup>
+                    <CSSTransition
+                      key={location.key}
+                      timeout={{ enter: 1000, exit: 1000 }}
+                      classNames={'fade'}
+                    >
+                      <Switch location={location}>
+                        <Route
+                          path='/photospage/undefined'
+                          exact
+                          component={NotFound}
+                        />
+                        <Route path='/photo/:id' component={Photo} />
+                        <Route path='/' component={LandingPage} />
+                        <Redirect from='/' to='/photospage' />
+                        {/* exact */}
+                        {/* <Route path='/photospage/:query' component={PhotosPage} /> */}
+                        <Route path='*' exact={true} component={NotFound} />
+                      </Switch>
+                    </CSSTransition>
+                  </TransitionGroup>
+                </MainTemplate>
+              </CategoryContext.Provider>
             </MenuContext.Provider>
           </>
         )}
