@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import PhotoCategory from '../../components/PhotoCategory/PhotoCategory';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+
+import PhotosPage from '../PhotosPage/PhotosPage';
+import NotFound from '../../components/NotFound/NotFound';
 
 import query from './photoCategories';
 
@@ -14,12 +18,16 @@ const StyledWrapper = styled.section`
   background: #000;
   display: flex;
   flex-direction: column;
+  z-index: 97;
+
+  ${({ theme }) => theme.mq.desktop} {
+    width: 50%;
+  }
 `;
 
 const StyledLink = styled(Link)`
   ${({ theme }) => theme.mq.desktop} {
-    width: 50%;
-    margin: auto;
+    width: 100%;
   }
 `;
 
@@ -48,6 +56,7 @@ const LandingPage = () => {
   };
 
   return (
+<<<<<<< Updated upstream
     <ErrorBoundary>
       <StyledWrapper>
         {data.map((item, index) => (
@@ -66,6 +75,26 @@ const LandingPage = () => {
         ))}
       </StyledWrapper>
     </ErrorBoundary>
+=======
+    <StyledWrapper>
+      {data.map((item, index) => (
+        <StyledLink
+          key={item.data.hits[0].id}
+          to={{
+            pathname: `/photospage/${item.query}`,
+            photoURL: item.data.hits[0].largeImageURL
+          }}
+        >
+          <PhotoCategory
+            clicked={() => updateCategoryHandler(index)}
+            data={item}
+          ></PhotoCategory>
+        </StyledLink>
+      ))}
+      <Route path='/photospage/:query' component={PhotosPage} />
+      <Route path='/photospage/undefined' exact component={NotFound} />
+    </StyledWrapper>
+>>>>>>> Stashed changes
   );
 };
 

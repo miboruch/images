@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledBox = styled.div`
   width: calc((100vw / 3) - 2px);
-  height: 200px;
+  height: 210px;
   background-image: url(${({ background }) => background});
   background-size: cover;
   background-position: center;
@@ -13,7 +13,8 @@ const StyledBox = styled.div`
   border: 1px solid #000;
 
   ${({ theme }) => theme.mq.desktop} {
-    width: calc((100vw / 3) - 8px);
+    ${'' /* width: calc((100% / 3) - 8px); */}
+    width: calc(50vw/3 - 5px);
   }
 `;
 

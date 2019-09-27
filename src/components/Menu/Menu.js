@@ -18,7 +18,7 @@ const StyledWrapper = styled.div`
   transform: translateX(${({ isOpen }) => (isOpen ? '0' : '100%')});
   transition: all 1s ease;
   overflow-x: hidden;
-  z-index: 99;
+  z-index: 700;
 `;
 
 const StyledDiv = styled.div`

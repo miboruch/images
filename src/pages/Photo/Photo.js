@@ -9,9 +9,19 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
+<<<<<<< Updated upstream
   background-image: url(${({ background }) => background});
   background-size: cover;
   background-position: center;
+=======
+  z-index: 99;
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+>>>>>>> Stashed changes
 `;
 
 const StyledSpan = styled.span`

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Fade from 'react-reveal/Fade';
 
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -16,12 +17,21 @@ const StyledWrapper = styled.section`
   min-height: 100vh;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   background: #000;
   display: flex !important;
   flex-direction: row;
   flex-wrap: wrap;
   overflow-x: hidden;
+  z-index: 98;
+
+  ${({ theme }) => theme.mq.mobileL} {
+    width: 100%;
+  }
+
+  ${({ theme }) => theme.mq.desktop} {
+    width: 50%;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -39,6 +49,7 @@ const StyledSpan = styled.span`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 900;
 `;
 
 const StyledHeader = styled.div`
@@ -97,9 +108,15 @@ const StyledNavigation = styled.nav`
   justify-content: space-around;
   align-items: center;
   transition: all 1s ease;
+  z-index: 100;
 
   :hover {
     background: rgba(0, 0, 0, 0.8);
+  }
+
+  ${({ theme }) => theme.mq.desktop} {
+    width: 50%;
+    right: 0;
   }
 `;
 
@@ -111,9 +128,16 @@ const PhotosPage = ({ match, location }) => {
   useEffect(() => {
     let resultObject = [];
     (async () => {
+<<<<<<< Updated upstream
       let result = await axios(
         `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
       );
+=======
+      try {
+        let result = await axios(
+          `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=24`
+        );
+>>>>>>> Stashed changes
 
       MAX_PAGES = result.data.totalHits / result.data.hits.length;
 
@@ -140,15 +164,16 @@ const PhotosPage = ({ match, location }) => {
           <NotFound></NotFound>
         ) : (
           data.map(item => (
-            <StyledLink
-              key={item.id}
-              to={{
-                pathname: `/photo/${item.id}`,
-                query: match.params.query
-              }}
-            >
-              <SinglePhoto background={item.largeImageURL}></SinglePhoto>
-            </StyledLink>
+            <Fade key={item.id}>
+              <StyledLink
+                to={{
+                  pathname: `/photo/${item.id}`,
+                  query: match.params.query
+                }}
+              >
+                <SinglePhoto background={item.largeImageURL}></SinglePhoto>
+              </StyledLink>
+            </Fade>
           ))
         )}
       </StyledWrapper>

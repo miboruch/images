@@ -9,7 +9,7 @@ const StyledHamburger = styled.button`
   height: 36px;
   background: transparent;
   border: none;
-  z-index: 100;
+  z-index: 900;
   margin: 0.5rem;
   position: fixed;
   top: 0;

@@ -34,15 +34,22 @@ const App = () => {
                     classNames={'fade'}
                   >
                     <Switch location={location}>
-                      <Route path='/' exact component={LandingPage} />
-                      <Route path='/photospage/:query' component={PhotosPage} />
+                      <Route path='/photo/:id' component={Photo} />
+                      <Route path='/' component={LandingPage} />
+                      {/* exact */}
+                      {/* <Route path='/photospage/:query' component={PhotosPage} />
                       <Route
                         path='/photospage/undefined'
                         exact
                         component={NotFound}
+<<<<<<< Updated upstream
                       />
                       <Route path='/photo/:id' component={Photo} />
                       <Route component={NotFound} />
+=======
+                      /> */}
+                      <Route path='*' exact={true} component={NotFound} />
+>>>>>>> Stashed changes
                     </Switch>
                   </CSSTransition>
                 </TransitionGroup>
