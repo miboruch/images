@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import Loader from '../../components/Loader/Loader';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import NotFound from '../../components/NotFound/NotFound';
 
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
+<<<<<<< HEAD
   z-index: 99;
+=======
+>>>>>>> master
 `;
 
 const StyledImage = styled.img`
@@ -27,7 +30,10 @@ const StyledSpan = styled.span`
   position: fixed;
   top: 0;
   left: 0;
+<<<<<<< HEAD
   z-index: 700;
+=======
+>>>>>>> master
 `;
 
 const StyledQuote = styled.p`
@@ -59,6 +65,7 @@ const StyledButton = styled.button`
 `;
 
 const Photo = ({ match, location }) => {
+  const [isError, setError] = useState(false);
   const [photoData, setPhotoData] = useState({
     data: {
       hits: [{}]
@@ -77,16 +84,23 @@ const Photo = ({ match, location }) => {
 
   useEffect(() => {
     (async () => {
-      let result = await axios(
-        `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&id=${match.params.id}`
-      );
+      try {
+        let result = await axios(
+          `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&id=${match.params.id}`
+        );
 
-      setPhotoData(result);
+        setPhotoData(result);
+      } catch (e) {
+        console.log(e);
+        setError(true);
+      }
     })();
   }, [match.params.id]);
 
-  return (
-    <ErrorBoundary>
+  return isError ? (
+    <NotFound></NotFound>
+  ) : (
+    <>
       <Loader isLoading={isLoading}></Loader>
       <StyledWrapper>
         <StyledImage src={photoData.data.hits[0].largeImageURL}></StyledImage>
@@ -104,7 +118,7 @@ const Photo = ({ match, location }) => {
           </StyledButton>
         </a>
       </StyledWrapper>
-    </ErrorBoundary>
+    </>
   );
 };
 

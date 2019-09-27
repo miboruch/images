@@ -5,7 +5,6 @@ import axios from 'axios';
 import Fade from 'react-reveal/Fade';
 
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import NotFound from '../../components/NotFound/NotFound';
 
 import { reducer } from '../../reducers/reducers';
@@ -149,7 +148,7 @@ const PhotosPage = ({ match, location }) => {
   }, [state.pageNumber, match.params.query]);
 
   return (
-    <ErrorBoundary>
+    <>
       <StyledWrapper>
         <StyledHeader background={location.photoURL || hero}>
           <StyledHeading>{match.params.query}</StyledHeading>
@@ -190,7 +189,7 @@ const PhotosPage = ({ match, location }) => {
           &#8594;
         </StyledRightArrow>
       </StyledNavigation>
-    </ErrorBoundary>
+    </>
   );
 };
 
