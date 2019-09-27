@@ -83,7 +83,7 @@ const Photo = ({ match, location }) => {
 
       setPhotoData(result);
     })();
-  }, []);
+  }, [match.params.id]);
 
   return (
     <ErrorBoundary>

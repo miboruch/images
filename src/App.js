@@ -7,15 +7,11 @@ import {
 } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import axios from 'axios';
-
 import LandingPage from './pages/LandingPage/LandingPage';
 import Photo from './pages/Photo/Photo';
-
 import MenuContext from './context/MenuContext';
 import CategoryContext from './context/CategoryContext';
-
 import { categoryReducer } from './reducers/categoryReducer';
-
 import NotFound from './components/NotFound/NotFound';
 import MainTemplate from './templates/MainTemplate';
 
@@ -78,8 +74,6 @@ const App = () => {
                         <Route path='/photo/:id' component={Photo} />
                         <Route path='/' component={LandingPage} />
                         <Redirect from='/' to='/photospage' />
-                        {/* exact */}
-                        {/* <Route path='/photospage/:query' component={PhotosPage} /> */}
                         <Route path='*' exact={true} component={NotFound} />
                       </Switch>
                     </CSSTransition>
@@ -92,38 +86,6 @@ const App = () => {
       ></Route>
     </Router>
   );
-
-  // return (
-  //   <Router>
-  //     <>
-  //       <MenuContext.Provider
-  //         value={{ isOpen: isHamburgerOpen, toggleMenu: toggleMenu }}
-  //       >
-  //         <MainTemplate>
-  //           <TransitionGroup>
-  //             <CSSTransition
-  //               key={location.key}
-  //               timeout={{ enter: 1000, exit: 1000 }}
-  //               classNames={'fade'}
-  //             >
-  //               <Switch location={location}>
-  //                 <Route path='/' exact component={LandingPage} />
-  //                 <Route path='/photospage/:query' component={PhotosPage} />
-  //                 <Route
-  //                   path='/photospage/undefined'
-  //                   exact
-  //                   component={NotFound}
-  //                 />
-  //                 <Route path='/photo/:id' component={Photo} />
-  //                 <Route component={NotFound} />
-  //               </Switch>
-  //             </CSSTransition>
-  //           </TransitionGroup>
-  //         </MainTemplate>
-  //       </MenuContext.Provider>
-  //     </>
-  //   </Router>
-  // );
 };
 
 export default App;
