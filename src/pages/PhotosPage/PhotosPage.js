@@ -135,7 +135,7 @@ const PhotosPage = ({ match, location }) => {
         );
 
         MAX_PAGES = result.data.totalHits / result.data.hits.length;
-
+        console.log(result);
         resultObject = [...resultObject, ...result.data.hits];
         setData(resultObject);
       } catch (e) {
@@ -168,7 +168,7 @@ const PhotosPage = ({ match, location }) => {
                   query: match.params.query
                 }}
               >
-                <SinglePhoto background={item.largeImageURL}></SinglePhoto>
+                <SinglePhoto background={item.webformatURL}></SinglePhoto>
               </StyledLink>
             </Fade>
           ))
