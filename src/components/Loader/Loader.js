@@ -50,7 +50,7 @@ const Loader = ({ isLoading }) => {
       <StyledParagraph ref={element => (text = element)}>
         Loading...
       </StyledParagraph>
-      <StyledProgressBar ref={element => (bar = element)}></StyledProgressBar>
+      <StyledProgressBar ref={element => (bar = element)} />
     </StyledWrapper>
   );
 };

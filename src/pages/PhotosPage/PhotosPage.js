@@ -5,8 +5,8 @@ import axios from 'axios';
 import Fade from 'react-reveal/Fade';
 
 import SinglePhoto from '../../components/SinglePhoto/SinglePhoto';
+import ArrowIcon from '../../components/ArrowIcon/ArrowIcon';
 import NotFound from '../../components/NotFound/NotFound';
-
 import { reducer } from '../../reducers/reducers';
 
 let hero = '/images/background.jpg';
@@ -41,18 +41,6 @@ const StyledLink = styled(Link)`
   opacity: 1;
 `;
 
-const StyledSpan = styled.span`
-  font-size: 40px;
-  transform: rotate(225deg);
-  display: inline-block;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
-  color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 900;
-`;
-
 const StyledHeader = styled.div`
   width: 100%;
   height: 25vh;
@@ -83,7 +71,7 @@ const StyledHeading = styled.h1`
   margin: 0;
 `;
 
-const StyledIcon = styled(StyledSpan)`
+const StyledIcon = styled(ArrowIcon)`
   color: #ccc;
   position: static;
   transform: rotate(0);
@@ -126,16 +114,15 @@ const PhotosPage = ({ match, location }) => {
 
   const [state, dispatch] = useReducer(reducer, { pageNumber: 1 });
 
+  const pageURL = `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
+
   useEffect(() => {
     let resultObject = [];
     (async () => {
       try {
-        let result = await axios(
-          `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&q=${match.params.query}&page=${state.pageNumber}&per_page=21`
-        );
+        let result = await axios(pageURL);
 
         MAX_PAGES = result.data.totalHits / result.data.hits.length;
-        console.log(result);
         resultObject = [...resultObject, ...result.data.hits];
         setData(resultObject);
       } catch (e) {
@@ -155,10 +142,10 @@ const PhotosPage = ({ match, location }) => {
           <StyledParagraph>Photos provided by Pixabay</StyledParagraph>
         </StyledHeader>
         <Link to='/'>
-          <StyledSpan>&#10147;</StyledSpan>
+          <ArrowIcon>&#10147;</ArrowIcon>
         </Link>
         {data.length === 0 ? (
-          <NotFound></NotFound>
+          <NotFound />
         ) : (
           data.map(item => (
             <Fade key={item.id}>
@@ -168,7 +155,7 @@ const PhotosPage = ({ match, location }) => {
                   query: match.params.query
                 }}
               >
-                <SinglePhoto background={item.webformatURL}></SinglePhoto>
+                <SinglePhoto background={item.webformatURL} />
               </StyledLink>
             </Fade>
           ))

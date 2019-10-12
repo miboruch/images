@@ -6,10 +6,8 @@ const StyledWrapper = styled.article`
   height: 25vh;
   position: relative;
   border-bottom: 2px solid #fff;
-  background-image: url(${({ background }) => background});
   background-size: cover;
-  background-position: center;
-  background: 'lightgreen';
+  background: url(${({ background }) => background}) center;
   z-index: 50;
   padding-left: 1em;
 `;

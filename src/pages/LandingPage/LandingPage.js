@@ -49,7 +49,7 @@ const LandingPage = () => {
           <PhotoCategory
             clicked={() => updateCategoryHandler(index)}
             data={item}
-          ></PhotoCategory>
+          />
         </StyledLink>
       ))}
       <Route path='/photospage/undefined' exact component={NotFound} />

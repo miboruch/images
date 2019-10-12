@@ -5,35 +5,18 @@ import axios from 'axios';
 
 import Loader from '../../components/Loader/Loader';
 import NotFound from '../../components/NotFound/NotFound';
+import ArrowIcon from '../../components/ArrowIcon/ArrowIcon';
 
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
-<<<<<<< HEAD
   z-index: 99;
-=======
->>>>>>> master
 `;
 
 const StyledImage = styled.img`
   width: 100%;
   height: 100vh;
   object-fit: cover;
-`;
-
-const StyledSpan = styled.span`
-  font-size: 40px;
-  transform: rotate(225deg);
-  display: inline-block;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
-  color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-<<<<<<< HEAD
-  z-index: 700;
-=======
->>>>>>> master
 `;
 
 const StyledQuote = styled.p`
@@ -65,6 +48,8 @@ const StyledButton = styled.button`
 `;
 
 const Photo = ({ match, location }) => {
+  const pageURL = `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&id=${match.params.id}`;
+
   const [isError, setError] = useState(false);
   const [photoData, setPhotoData] = useState({
     data: {
@@ -85,9 +70,7 @@ const Photo = ({ match, location }) => {
   useEffect(() => {
     (async () => {
       try {
-        let result = await axios(
-          `https://pixabay.com/api/?key=13577805-bdfef5db5a460fe6c039409ba&id=${match.params.id}`
-        );
+        let result = await axios(pageURL);
 
         setPhotoData(result);
       } catch (e) {
@@ -98,14 +81,14 @@ const Photo = ({ match, location }) => {
   }, [match.params.id]);
 
   return isError ? (
-    <NotFound></NotFound>
+    <NotFound />
   ) : (
     <>
-      <Loader isLoading={isLoading}></Loader>
+      <Loader isLoading={isLoading} />
       <StyledWrapper>
-        <StyledImage src={photoData.data.hits[0].largeImageURL}></StyledImage>
+        <StyledImage src={photoData.data.hits[0].largeImageURL} />
         <Link to={`/photospage/${location.query}`}>
-          <StyledSpan>&#10147;</StyledSpan>
+          <ArrowIcon />
         </Link>
         <StyledQuote>&#10064; {photoData.data.hits[0].user}</StyledQuote>
         <a

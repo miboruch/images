@@ -100,7 +100,7 @@ const StyledInput = styled.input`
   }
 
   ::placeholder {
-    font-family: 'Raleway';
+    font-family: 'Raleway', sans-serif;
     letter-spacing: 3px;
     color: lightgrey;
     text-align: center;
@@ -127,10 +127,10 @@ const StyledButton = styled.button`
   ::before {
     content: '';
     position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     transform: skew(-1deg, -1deg);
     background: linear-gradient(315deg, #e64a19, #ff0057);
     z-index: -1;
@@ -178,14 +178,11 @@ const Menu = () => {
         </StyledParagraph>
       </StyledDiv>
       <StyledForm isSearchOpen={searchOpen}>
-        <StyledInput
-          placeholder='Search'
-          onChange={setQueryHandler}
-        ></StyledInput>
+        <StyledInput placeholder='Search' onChange={setQueryHandler}/>
         <StyledLink to={`/photospage/${query}`}>
           <StyledButton
             onClick={() => toggleMenu()}
-            disabled={query === null || query === '' ? true : false}
+            disabled={query === null || query === ''}
           >
             Click
           </StyledButton>

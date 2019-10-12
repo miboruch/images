@@ -53,7 +53,7 @@ const Hamburger = () => {
 
   return (
     <StyledHamburger onClick={toggleMenu}>
-      <InnerHamburger isOpen={isOpen}></InnerHamburger>
+      <InnerHamburger isOpen={isOpen} />
     </StyledHamburger>
   );
 };

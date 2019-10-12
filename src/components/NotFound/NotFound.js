@@ -99,7 +99,7 @@ const NotFound = () => {
         Page and photos not found.
       </StyledHeading>
       <StyledParagraph>404</StyledParagraph>
-      <StyledBorder ref={element => (border = element)}></StyledBorder>
+      <StyledBorder ref={element => (border = element)} />
       <Link to='/'>
         <StyledButton ref={element => (button = element)}>Go back</StyledButton>
       </Link>
